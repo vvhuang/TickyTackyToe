@@ -21,8 +21,9 @@ and is declared a winner; or when no more moves are possible by either player.
 
 Here is an example:
 
-| 12 |  5 |  7 |  2 |
+|    |    |    |    |
 |----|----|----|----|
+| 12 |  5 |  7 |  2 |
 | 14 | 11 |  3 |  8 |
 |  4 | 13 |  9 | 30 |
 | 24 | 16 | 31 | 21 |
@@ -30,9 +31,7 @@ Here is an example:
 X: calls out 1, O: calls out 3 (to make 4), X: 8 (11), O: 4 (12), X: 3 (7), O: 6 (9). At the point the board looks like:
 
  O |  5 | X | 2
-----------------
+---|----|---|---
 14 |  X | O | 8
-----------------
  O | 13 | O | 30
-----------------
 24 | 16 |31| 21
