@@ -30,8 +30,9 @@ Here is an example:
 
 X: calls out 1, O: calls out 3 (to make 4), X: 8 (11), O: 4 (12), X: 3 (7), O: 6 (9). At the point the board looks like:
 
- O |  5 | X | 2
----|----|---|---
-14 |  X | O | 8
- O | 13 | O | 30
-24 | 16 |31| 21
+|    |    |    |    |
+|----|----|----|----|
+|  O |  5 |  X |  2 |
+| 14 |  X |  O |  8 |
+|  O | 13 |  O | 30 |
+| 24 | 16 | 31 | 21 |
