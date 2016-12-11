@@ -22,6 +22,7 @@ and is declared a winner; or when no more moves are possible by either player.
 Here is an example:
 
 | 12 |  5 |  7 |  2 |
+|----|----|----|----|
 | 14 | 11 |  3 |  8 |
 |  4 | 13 |  9 | 30 |
 | 24 | 16 | 31 | 21 |
