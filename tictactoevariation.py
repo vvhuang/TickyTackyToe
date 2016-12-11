@@ -1,5 +1,8 @@
 # tictactoevariation.py
-# by: Wei Huang
+# author: Vivi Huang
+
+from random import randrange
+import math
 
 # global constants
 num_square=16
@@ -8,8 +11,6 @@ X="X"
 EMPTY=" "
 TIE="TIE"
 callnum=18
-from random import randrange
-import math
 lastcall=""
 
 def ask_yes_no(question):
@@ -18,6 +19,7 @@ def ask_yes_no(question):
     while response not in ("y", "n"):
         response = input(question).lower()
     return response
+
 
 def ask_number(question, low, high):
     """Ask for a number within a range."""
@@ -111,6 +113,7 @@ def alternate_display_board(random_board):
                     print("|", end=" ")
         print("\n")
 
+
 def display_instruct():
     """Display game instructions."""  
     print (
@@ -142,6 +145,7 @@ def display_instruct():
     """)
 display_instruct()
 
+
 def pieces():
     """Determine if player or computer goes first."""
     go_first = ask_yes_no("Do you require the first call? (y/n): ")
@@ -159,19 +163,18 @@ def pieces():
     return com, hum,foundit
 computer,human,foundit=pieces()
 
+
 def record_board():
     """Create new game board."""
     OXboard = []
     for square in range(num_square):
         OXboard.append(EMPTY)
-###    print("record_board OXboard:",OXboard)
     return OXboard
 OXboard=record_board()
 
   
 def legal_move(proposecall,alreadycall,lastcall,random_board):
-    #OXboard and random_board can be together
-
+    # OXboard and random_board can be together
     if proposecall in range(1,callnum+1):
         a=True
     else:
@@ -190,10 +193,12 @@ def legal_move(proposecall,alreadycall,lastcall,random_board):
         legal=False
     return legal
     
+
 def findsquarenum(move):
     for i in range(num_square):
         if random_board[i]==move:
             return i
+
 
 num_row=int(math.sqrt(num_square))
 def winner(board,OXboard,lastcall,already):
@@ -203,59 +208,38 @@ def winner(board,OXboard,lastcall,already):
         ylist.append([])
         for x in range(num_row):
             ylist[y].append(x+y*num_row)
-#    print(ylist)
-
     
     for j in range(num_row):
         i=0
         # check each colomn
-#        print("j",j)
         while (i <= num_row-2) and (board[ylist[i][j]]==board[ylist[i+1][j]]!=EMPTY):
-#            print("colomn i",i)
-            i=i+1
-#            print("colomn i:",i)
-        
+            i=i+1        
             if i==num_row-1:
                 winner=board[ylist[i][j]]
-#####                print(winner)
                 return winner
             
     for j in range(num_row):            
         # check each row
         i=0
-#        print("j",j)
         while (i<=num_row-2) and board[ylist[j][i]]==board[ylist[j][i+1]]!=EMPTY:
-#            print("row i",i)
             i=i+1
-#            print("row i:",i)
-
             if i==num_row-1:
                 winner=board[ylist[j][i]]
-#####               print(winner)
                 return winner
             
     #check each diagonal
     i=0
     while (i<=num_row-2) and board[ylist[i][i]]==board[ylist[i+1][i+1]]!=EMPTY:
-#        print("diagonal(1) i",i)
         i=i+1
-#        print("diagonal(1) i:",i)
-        
         if i==num_row-1:
             winner=board[ylist[i][i]]
-#####            print(winner)
             return winner
-
 
     i=0
     while (i<=num_row-2) and board[ylist[i][num_row-1-i]]==board[ylist[i+1][num_row-1-(i+1)]]!=EMPTY:
-#        print("diagonal(2) i",i)
         i=i+1
-#        print("diagonal(2) i:",i)
-
         if i==num_row-1:
             winner=board[ylist[i][num_row-1-i]]
-#####            print(winner)
             return winner
 
     if EMPTY not in OXboard:       
@@ -278,7 +262,6 @@ comalready=[]
 humalready=[]
 check=0
 def human_move(human,foundit,lastcall):
-
     """Get human move."""
     propose=""
     
@@ -286,24 +269,18 @@ def human_move(human,foundit,lastcall):
         propose = ask_number("Call out a number from 1 to 18: ", 1, callnum+1)
         
     humalready.append(propose)
-###    print("humalready:",humalready)
     if foundit==1:
         lastcall=propose
-#        print("lastcall:",lastcall)
         foundit=2
         legal=False
         print("You called out",propose)
         check=1
         return(lastcall,propose+0,foundit,legal,check)
     
-
     if foundit==2:
         move=lastcall+propose
-#        print("move:",move)
         legal=legal_move(propose,humalready,lastcall,random_board)
-#        print("legal:",legal)
         lastcall=propose
-#        print("lastcall:",lastcall)
         check=0
         
         return (lastcall,move,foundit,legal,check)
@@ -324,9 +301,7 @@ def computer_move(OXboard, computer, human,foundit,comalready,lastcall):
         propose=randrange(1,callnum+1)
         print ("\t\t\t",propose,"!!!!!!")
         comalready.append(propose)
-###        print("comalready",comalready)
         lastcall=propose
-#        print("lastcall",lastcall)
         
         legal=False
         return (notapplicable,lastcall,foundit,legal,comalready)
@@ -336,27 +311,17 @@ def computer_move(OXboard, computer, human,foundit,comalready,lastcall):
         
     # if computer can win, take that move
         pick=[]
-        for j in range(num_square):
-            
-#            print("OXboard:",OXboard)
-#            print("OXboard[j]:",OXboard[j])
-            
+        for j in range(num_square):       
             if OXboard[j]==EMPTY:
-#                print("j:",j,"OXboard[j]:",OXboard[j])
                 pick.append(j)
-#                print("pick",pick)
         for square in pick:
             tryboard[square] = computer
-#            print("tryboard:",tryboard)
             if winner(tryboard,OXboard,lastcall,comalready) == computer:
                 propose=random_board[square]-lastcall
                 if propose in range(1,callnum+1):
                     print("\t\t\t",propose,"!!!!!!")
                     comalready.append(propose)
-###                    print("comalready",comalready)
                     lastcall=propose
-#                print("lastcall",lastcall)
-                
                     legal=True
                 
                     return (random_board[square],lastcall,foundit,legal,comalready)
@@ -367,15 +332,12 @@ def computer_move(OXboard, computer, human,foundit,comalready,lastcall):
 
     # if human can win, block that move       
             tryboard[square] = human
-#            print("tryboard: ",tryboard)
             if winner(tryboard,OXboard,lastcall,comalready) == human:
                 propose=random_board[square]-lastcall
                 if propose in range(1,callnum+1):
                     print("\t\t\t",propose,"!!!!!!")
                     lastcall=propose
-#                print ("lastcall",lastcall)
                     comalready.append(lastcall)
-###                    print("comalready",comalready)
                     legal=True
                     return (random_board[square],lastcall,foundit,legal,comalready)
         # done checkin this move, undo it
@@ -387,16 +349,12 @@ def computer_move(OXboard, computer, human,foundit,comalready,lastcall):
         while legal==False:
             propose=randrange(1,callnum+1)
             legal=legal_move(propose,comalready,lastcall,random_board)
-#            print("propose,legal",propose,legal)
         print("\t\t\t",propose,"!!!!!!")
         comalready.append(propose)
-###        print("comalready: ",comalready)
         move=propose+lastcall
-#        print ("propose: ",propose)
         lastcall=propose
 
         return (move,lastcall,foundit,legal,comalready)
-
 
 
 def next_turn(turn):
@@ -408,8 +366,6 @@ def next_turn(turn):
 
 
 #main
-
-
 turn=O
 lastcall=0
 propose=0
@@ -420,15 +376,11 @@ while not winner(random_board,OXboard,lastcall,already):
     if turn == human:
         print("Oh it's your turn! Go ahead!")
         propose,move,foundit,legal,check = human_move(OXboard, foundit,lastcall)
-###        print(propose,move,foundit,legal)
         if foundit!=1:
             if legal==True:
                 squarenum=findsquarenum(move)
-#                print("squarenum:",squarenum)
                 random_board[squarenum]=human
-####                print(random_board)
                 OXboard[squarenum] = human
-####                print("OXboard:",OXboard)
                 print("You called out",propose,"! And that will make a",move)
                
         if foundit==2:
@@ -448,9 +400,7 @@ while not winner(random_board,OXboard,lastcall,already):
                     squarenum=findsquarenum(move)
                     if squarenum!=None:
                         random_board[squarenum]=human
-####                        print(random_board)
                         OXboard[squarenum]=human
-####                        print("OXboard:",OXboard)
                     else:
                         notonboard=1
                 if check!=1:
@@ -458,25 +408,18 @@ while not winner(random_board,OXboard,lastcall,already):
                 if notonboard==1 and check!=1:
                     print("And",move,"is not on board! HAHA foolish human!")                       
         already=comalready
-####        print(already)
     lastcall=propose
 
-            
     if turn == computer:
         print("Oh it's my turn! Sorry!")
         move,propose,foundit,legal,notreallyuseful=computer_move(OXboard, computer, human,foundit,comalready,lastcall)
-###        print(move,propose,foundit,legal,notreallyuseful)
         if foundit!=0:
             if legal==True:
                 squarenum=findsquarenum(move)
-#                print("squarenum: ",squarenum)
                 random_board[squarenum]=computer
                 print("And that will make a",move)
-####                print(random_board)
                 OXboard[squarenum] = computer
-####                print("OXboard: ",OXboard)
         already=humalready
-####        print(already)
     lastcall=propose
 
             
@@ -495,6 +438,7 @@ if the_winner==TIE:
             print("Because there does not exist a number from 1-18 that has not been")
             print("called by me that can make a legal move on the board")
             print("(The computer has called out:",comalready,")")
+
 
 def congrat_winner(the_winner, computer, human):
     """Congratulate the winner."""
